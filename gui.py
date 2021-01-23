@@ -1,41 +1,58 @@
 import tkinter as tk
 
-#creating GUI
 class SudokuGUI(tk.Tk):
-    def __init__(self, root):
 
-        self.root = root
-        root.title("Sudoku Solver")
-        root.geometry('600x700')
+    def __init__(self):
+        super().__init__()
+        self.title("Sudoku Solver")
+        self.geometry("600x700")
+        self.resizable(0,0)
 
-        self.solve_button = tk.Button(root, text ="Solve Sudoku", command = self.solve())
-        self.solve_button.grid(padx=120, pady = 30, side = "bottom")
+        self.frame = tk.Frame(self)
+        self.frame.grid()
+        self.create_arr()
 
-    # creating cells on the board
-    def create(self)
+        #button that solves sudoku
+        self.solve_btn = tk.Button(self, text = "Solve Sudoku", command = self.solve())
+        self.solve_btn.grid(ipady = 20, ipadx = 40, pady = 20)
 
+
+    #creates empty sudoku grid
+    def create_arr(self):
+
+        cell_arr = []
+        #fills array of cells
+        for i in range(9):
+            cell_vect = []
+            for j in range(9):
+                cell = Cell(self.frame, 0)
+                cell_vect.append(cell)
+            cell_arr.append(cell_vect)
+        
+        #places cells on screen
         for i in range(9):
             for j in range(9):
+                cell_arr[i][j].entry.grid(ipady = 20,  row = i, column = j)
 
+        return cell_arr
 
-
+    #solves sudoku using backtracking
     def solve(self):
         pass
 
-#cell class deriving from tk.Entry
-class Cell(tk.Entry):
-    def __init__(self, root, row, col, num):
-        super().__init__(root)
-        self.row = row
-        self col = col
-        self.num = num
+    #draws cells in sudoku
+    def draw(self):
+        pass
 
-        num = tk.IntVar()
-        self.grid(row = row, column = col, text_variable = num)
+# cell in sudoku
+class Cell():
 
+    def __init__(self, root, num):
+        self.var = tk.IntVar(root, value = num)
+        self.entry = tk.Entry(root, width =10, justify = "center", bd=2,  textvariable = self.var)
 
-if __name__ = "__main__":
-    root = tk.Tk()
-    my_gui = SudokuGUI(root)
+if __name__=="__main__":
+
+    root = SudokuGUI()
     root.mainloop()
-    c = Cell()
+

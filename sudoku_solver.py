@@ -1,3 +1,9 @@
+def print_grid(arr):
+    for i in range(9):
+        for j in range(9):
+            print(arr[i][j], end=" ")
+        print("\n")
+
 def find_empty_location(arr, l):
     for row in range(9):
         for col in range(9):
