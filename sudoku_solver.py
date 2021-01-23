@@ -1,9 +1,3 @@
-def print_grid(arr):
-    for i in range(9):
-        for j in range(9):
-            print(arr[i][j], end=" ")
-        print("\n")
-
 def find_empty_location(arr, l):
     for row in range(9):
         for col in range(9):
@@ -67,20 +61,4 @@ def solve_sudoku(arr):
             arr[row][col] = 0
 
     return False
-
-
-if __name__ == "__main__":
-
-    grid = [[3, 0, 6, 5, 0, 8, 4, 0, 0],
-            [5, 2, 0, 0, 0, 0, 0, 0, 0],
-            [0, 8, 7, 0, 0, 0, 0, 3, 1],
-            [0, 0, 3, 0, 1, 0, 0, 8, 0],
-            [9, 0, 0, 8, 6, 3, 0, 0, 5],
-            [0, 5, 0, 0, 9, 0, 6, 0, 0],
-            [1, 3, 0, 0, 0, 0, 2, 5, 0],
-            [0, 0, 0, 0, 0, 0, 0, 7, 4],
-            [0, 0, 5, 2, 0, 6, 3, 0, 0]]
-
-    if(solve_sudoku(grid)):
-        print_grid(grid)
 
