@@ -13,17 +13,11 @@ class SudokuGUI(tk.Tk):
         self.frame.grid()
 
         
-        self.test_grid = [[3, 0, 6, 5, 0, 8, 4, 0, 0],
-                    [5, 2, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 8, 7, 0, 0, 0, 0, 3, 1],
-                    [0, 0, 3, 0, 1, 0, 0, 8, 0],
-                    [9, 0, 0, 8, 6, 3, 0, 0, 5],
-                    [0, 5, 0, 0, 9, 0, 6, 0, 0],
-                    [1, 3, 0, 0, 0, 0, 2, 5, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 7, 4],
-                    [0, 0, 5, 2, 0, 6, 3, 0, 0]]
-
-        self.update()
+        self.start_grid = [[0 for x in range(9)] for y in range(9)]
+        #array of IntVars
+        self.var_grid = self.create_var_arr()
+        #array of entries
+        self.cell_arr = self.create_arr()
 
         #button that solves sudoku
         self.solve_btn = tk.Button(self, text = "Solve Sudoku", command = self.button_solve)
@@ -38,7 +32,7 @@ class SudokuGUI(tk.Tk):
         for i in range(9):
             cell_vect = []
             for j in range(9):
-                cell = tk.Entry(self.frame, state=tk.DISABLED, textvariable = self.var_grid[i][j], width =10, justify = "center", bd=2,)
+                cell = tk.Entry(self.frame,  textvariable = self.var_grid[i][j], width =10, justify = "center", bd=2,)
                 cell_vect.append(cell)
             cell_arr.append(cell_vect)
         
@@ -55,7 +49,7 @@ class SudokuGUI(tk.Tk):
         for i in range(9):
             var_vec = []
             for j in range(9):
-                var = tk.IntVar(self, value = self.test_grid[i][j])
+                var = tk.IntVar(self, value = self.start_grid[i][j])
                 var_vec.append(var)
             var_arr.append(var_vec) 
 
@@ -63,11 +57,15 @@ class SudokuGUI(tk.Tk):
 
     #function for button
     def button_solve(self):
-        sds.solve_sudoku(self.test_grid)
-        self.update()
+        self.update_start_arr()
+        sds.solve_sudoku(self.start_grid)
+        self.update_grid()
+
+    def update_start_arr(self):
+        self.start_grid = [[var.get() for var in vect] for vect in self.var_grid]
 
     #updates grid
-    def update(self):
+    def update_grid(self):
 
         self.var_grid = self.create_var_arr()
         self.cell_arr = self.create_arr()
