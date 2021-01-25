@@ -21,7 +21,7 @@ class SudokuGUI(tk.Tk):
         self.frame.grid(padx = 25, pady = 30, columnspan = 2)
 
         #creates arrays of numbers, variables and entries
-        self.create_empty_grid()
+        self.start_grid = [[0 for x in range(9)] for y in range(9)]
         self.var_grid = self.create_var_arr()
         self.cell_arr = self.create_cell_arr()
 
@@ -36,12 +36,8 @@ class SudokuGUI(tk.Tk):
     #function to clear grid
     def create_empty_grid(self):
         self.start_grid = [[0 for x in range(9)] for y in range(9)]
+        self.update_grid()
 
-        #updates var_grid if start_grid is cleared, else passes
-        try:
-            self.update_grid()
-        except:
-            pass
 
     #creates empty sudoku grid
     def create_cell_arr(self):
@@ -81,7 +77,6 @@ class SudokuGUI(tk.Tk):
         else:
             tk.messagebox.showwarning(title="Sudoku Solver", message="This sudoku is unsolvable")
             self.create_empty_grid()
-            self.update_grid()
 
     #updates grid
     def update_grid(self):
