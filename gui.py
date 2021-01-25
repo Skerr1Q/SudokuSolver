@@ -7,6 +7,13 @@ class SudokuGUI(tk.Tk):
         super().__init__()
         self.title("Sudoku Solver")
         self.configure(bg = "#772F1A")
+
+        try:
+            self.img = tk.PhotoImage(file='C:\\Users\\Vlad Kostenko\\Desktop\\Folders\\Projects\\SudokuSolver\\icon.gif')
+            self.tk.call('wm', 'iconphoto', self._w, self.img)
+        except:
+            pass
+
         self.geometry("600x700")
         self.resizable(0,0)
         
@@ -57,6 +64,7 @@ class SudokuGUI(tk.Tk):
             var_vec = []
             for j in range(9):
                 var = tk.IntVar(self, value = self.start_grid[i][j])
+                var.trace_add("write", callback=lambda *args, varv=var: self.validate_input(varv))
                 var_vec.append(var)
             var_arr.append(var_vec) 
 
@@ -65,7 +73,13 @@ class SudokuGUI(tk.Tk):
     #function for button
     def button_solve(self):
         self.update_start_arr()
-        if sds.solve_sudoku(self.start_grid):
+        test_grid = self.start_grid.copy()
+        if sds.solve_sudoku(test_grid):
+            self.start_grid = test_grid
+            self.update_grid()
+        else:
+            tk.messagebox.showwarning(title="Sudoku Solver", message="This sudoku is unsolvable")
+            self.create_empty_grid()
             self.update_grid()
 
     def update_start_arr(self):
@@ -76,6 +90,15 @@ class SudokuGUI(tk.Tk):
 
         self.var_grid = self.create_var_arr()
         self.cell_arr = self.create_arr()
+
+    #function that validates input
+    def validate_input(self, num):
+        try:
+            if num:
+                list_num = list(str(num.get()))
+                num.set(int(list_num[-1]))
+        except: 
+            num.set(0)
 
 if __name__=="__main__":
 
